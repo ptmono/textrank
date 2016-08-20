@@ -1,4 +1,10 @@
 
+try:
+    xrange
+except:
+    xrange = range
+    unicode = str
+
 from scipy.sparse import csr_matrix
 from scipy.linalg import eig
 from numpy import empty as empty_matrix

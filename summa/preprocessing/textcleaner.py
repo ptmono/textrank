@@ -6,6 +6,12 @@ import logging
 logger = logging.getLogger('summa.preprocessing.cleaner')
 
 try:
+    xrange
+except:
+    xrange = range
+    unicode = str
+
+try:
     from pattern.en import tag
     logger.info("'pattern' package found; tag filters are available for English")
     HAS_PATTERN = True
@@ -13,8 +19,8 @@ except ImportError:
     logger.info("'pattern' package not found; tag filters are not available for English")
     HAS_PATTERN = False
 
-from snowball import SnowballStemmer
-from stopwords import get_stopwords_by_language
+from .snowball import SnowballStemmer
+from .stopwords import get_stopwords_by_language
 import re  # http://regex101.com/#python to test regex
 from summa.syntactic_unit import SyntacticUnit
 
@@ -165,6 +171,8 @@ def tokenize(text, lowercase=False, deacc=False, errors="strict", to_lower=False
 def merge_syntactic_units(original_units, filtered_units, tags=None):
     units = []
     for i in xrange(len(original_units)):
+        filtered_units = list(filtered_units)
+
         if filtered_units[i] == '':
             continue
 
